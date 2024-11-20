@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+  <div class="container-md">
+    <h1>Copy and paste this template.</h1>
+
+    <th:block th:with="boardInfo=${boardDTO}">
+      <form action="/board/modify" method="post" id="modifyForm" enctype="multipart/form-data">
+        <input type="hidden" name="bno" th:value="${boardInfo.bno}">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" name="title" id="title" th:value="${boardInfo.title}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="regDate" class="form-label">Register Date</label>
+          <input type="text" class="form-control" name="registerTime" id="regDate" th:value="${boardInfo.registerTime}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="writer" class="form-label">Writer</label>
+          <input type="text" class="form-control" name="writer" id="writer" th:value="${boardInfo.writer}" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="content" class="form-label">Content here</label>
+          <textarea class="form-control" name="content" id="content" rows="3" readonly>[[${boardInfo.content}]]</textarea>
+          <br>
+        </div>
+
+        <button type="button" id="listBtn" class="btn btn-primary">List</button>
+        <button type="button" id="modifyBtn" class="btn btn-success">Modify</button>
+        <a th:href="@{/board/delete(delBno=${boardInfo.bno})}"><button type="button" id="deleteBtn" class="btn btn-danger">Delete</button></a>
+      </form>
+    </th:block>
+
+    <script th:src="@{/javaScript/boardDetail.js}"></script>
+  </div>
+</div>
