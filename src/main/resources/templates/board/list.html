@@ -8,6 +8,7 @@
     <div class="container-md">
         <h1>Board list page</h1>
 
+        <!--/* list 영역 */-->
         <table class="table">
             <thead>
             <tr>
@@ -26,6 +27,32 @@
             </tr>
             </tbody>
         </table>
+
+        <!-- /* pagination 영역 */ -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:if="${pagingVO.hasPrev}" >
+                    <!-- /* <<(이전)을 보여주는 버튼 */ -->
+                    <a class="page-link" aria-label="Previous" th:href="@{/board/list(pageNum=${pagingVO.startPage-1})}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <!-- /* 사용자가 클릭할 숫자를 보여주는 버튼 */ -->
+                <th:block th:each="i : ${#numbers.sequence(pagingVO.startPage, pagingVO.endPage)}">
+                    <li class="page-item" >
+                        <a class="page-link" th:href="@{/board/list(pageNum=${i})}">[[${i}]]</a>
+                    </li>
+                </th:block>
+
+                <!-- /* >>(이후)을 보여주는 버튼 */ -->
+                <li class="page-item" th:classappend="${pagingVO.hasNext} eq false ? 'disabled' : ''">
+                    <a class="page-link" aria-label="Next" th:href="@{/board/list(pageNum=${pagingVO.endPage+1})}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
     </div>
 </div>

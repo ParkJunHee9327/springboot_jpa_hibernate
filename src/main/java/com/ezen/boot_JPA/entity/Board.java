@@ -18,7 +18,7 @@ public class Board extends TimeBase { // TimeBase로부터 자주 쓰는 컬럼�
 
     @Id // Id로 어노테이트되면 기본키다.
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키를 어떻게 생성할 지 지정한다. MySQL의 AUTO_INCREMENT다.
-    private Long bno;
+    private long bno; // wrapper 클래스가 알아서 long을 Long으로 형변환 해준다.
 
     // 필드의 이름을 그대로 쓸 것이라면 @Column(name = "")을 지정할 필요가 없다.
     // 문자열은 varchar()에 사용할 길이를 지정해야 한다.

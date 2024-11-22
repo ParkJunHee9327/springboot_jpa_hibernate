@@ -1,7 +1,11 @@
 package com.ezen.boot_JPA.service;
 
 import com.ezen.boot_JPA.dto.BoardDTO;
+import com.ezen.boot_JPA.dto.BoardFileDTO;
+import com.ezen.boot_JPA.dto.FileDTO;
 import com.ezen.boot_JPA.entity.Board;
+import com.ezen.boot_JPA.entity.File;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -32,13 +36,51 @@ public interface BoardService {
                 .build();
     }
 
+    // File 객체용 converter다.
+    // FileDTO를 File Entity로, File Entity를 FileDTO로 변환한다.
+    default File convertDtoToEntity(FileDTO fileDTO) {
+        return File.builder()
+                .uuid(fileDTO.getUuid())
+                .bno(fileDTO.getBno())
+                .saveDir(fileDTO.getSaveDir())
+                .fileName(fileDTO.getFileName())
+                .fileSize(fileDTO.getFileSize())
+                .fileType(fileDTO.getFileType())
+                .build();
+    }
+
+    default FileDTO convertEntityToDto(File file) {
+        return FileDTO.builder()
+                .uuid(file.getUuid())
+                .bno(file.getBno())
+                .saveDir(file.getSaveDir())
+                .fileName(file.getFileName())
+                .fileSize(file.getFileSize())
+                .fileType(file.getFileType())
+                .registerTime(file.getRegisterTime())
+                .modifyTime(file.getModifyTime())
+                .build();
+    }
+
     Long insert(BoardDTO boardDTO);
 
-    List<BoardDTO> getList();
+    long insert(BoardFileDTO boardFileDTO);
 
-    BoardDTO getDetail(Long bno);
+//    BoardDTO getDetail(Long bno);
 
-    Long modify(BoardDTO boardDTO);
+    BoardFileDTO getDetail(Long bno);
+
+//    Long modify(BoardDTO boardDTO);
+
+    Long modify(BoardFileDTO boardFileDTO);
 
     int delete(Long delBno);
+
+//    List<BoardDTO> getList();
+
+    Page<BoardDTO> getList(int pageNum);
+
+    Long deleteFile(String uuid);
+
+    List<FileDTO> getAllFile();
 }

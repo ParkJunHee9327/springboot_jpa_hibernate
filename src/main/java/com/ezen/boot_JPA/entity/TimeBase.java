@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 // 즉 등록일, 수정일만 따로 빼서 관리하는 슈퍼 테이블이다.
 @MappedSuperclass // Mapper의 superclass임을 나타낸다. 모든 테이블들이 TimeBase를 상속받을 수 있다(?).
 @EntityListeners(value = {AuditingEntityListener.class}) // ? 필수로 꼭 지정해야 한다고 한다. 근데 얘가 뭐하는 애임?
-@Getter // registerTime과 modifyTime은 보통 now()로 설정되기에 Setter는 필요 없다.
+@Getter // registerTime과 modifyTime은 now()로 설정되기에 Setter는 필요 없다.
 public class TimeBase {
 
     @CreatedDate // 생성된 일자를 의미한다.
