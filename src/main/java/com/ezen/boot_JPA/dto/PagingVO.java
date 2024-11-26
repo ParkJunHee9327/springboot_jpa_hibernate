@@ -15,7 +15,15 @@ public class PagingVO {
     private boolean hasPrev, hasNext;
     private int pageNum;
 
-    public PagingVO(Page<BoardDTO> boardDTOList, int pageNum) {
+    // 검색을 위한 필드들이다.
+    private String sortType;
+    private String keyword;
+
+    public PagingVO(Page<BoardDTO> boardDTOList, int pageNum, String sortType, String keyword) {
+        // 검색 기능이 추가되어 내가 작성한 코드.
+        this.sortType = sortType;
+        this.keyword = keyword;
+
         this.pageNum = pageNum + 1;
         this.totalPage = boardDTOList.getTotalPages();
 

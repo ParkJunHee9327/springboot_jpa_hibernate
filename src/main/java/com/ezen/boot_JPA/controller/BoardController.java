@@ -57,27 +57,49 @@ public class BoardController {
           model.addAttribute("list", boardDTOList);
       }*/
 
+    // 검색 기능을 추가하기 전의 /list.
+//    @GetMapping("/list")
+//    // "pageNum"의 기본값이 1이 아닌 0인 이유: 사용하는 페이지네이션 라이브러리의 시작 번지가 0이기 때문.
+//    public void list(Model model, @RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum) {
+//        // Page: JPA에서 제공하는 페이지네이션용 객체다.
+//        // 화면에서 들어오는 pageNum = 1이면 여기서 0으로 처리해야 한다. 시작 번지가 0이기 때문이다.
+//        log.info(" pageNum > {}", pageNum);
+//        pageNum = (pageNum == 0 ? 0 : pageNum - 1);
+//        log.info(" pageNum > {}", pageNum);
+//
+//        Page<BoardDTO> boardDTOList = boardService.getList(pageNum);
+//        log.info(" > BoardController list start. boardDTOList: {}.", boardDTOList);
+//        log.info(" > BoardController list start. Total count: {}", boardDTOList.getTotalElements()); //전체 글 수
+//        log.info(" > BoardController list start. Total page: {}", boardDTOList.getTotalPages()); // 전체 페이지 수(realEndPage)
+//        log.info(" > BoardController list start. The current page: {}", boardDTOList.getNumber()); // 페이지 번호(pageNum)
+//        log.info(" > BoardController list start. The amount of post per page: {}", boardDTOList.getSize()); // 한 페이지에 표시되는 글의 줄 양(postPerPage)
+//        log.info(" > BoardController list start. Can move to next: {}", boardDTOList.hasNext()); // 다음 페이지로 갈 수 있는지 여부
+//        log.info(" > BoardController list start. Can move to previous: {}", boardDTOList.hasPrevious()); // 이전 페이지로 갈 수 있는지 여부
+//        model.addAttribute("list", boardDTOList);
+//
+//        // Page 객체는 백엔드 전용(DB에서 값 받아오기용) 객체라서 화면에 띄울 수 있도록 다른 객체가 필요하다.
+//        PagingVO pagingVO = new PagingVO(boardDTOList, pageNum);
+//        model.addAttribute("pagingVO", pagingVO);
+//        model.addAttribute("list", boardDTOList);
+//    }
+
     @GetMapping("/list")
     // "pageNum"의 기본값이 1이 아닌 0인 이유: 사용하는 페이지네이션 라이브러리의 시작 번지가 0이기 때문.
-    public void list(Model model, @RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum) {
+    public void list(Model model,
+                     @RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+                     @RequestParam(value = "sortType", required = false) String sortType,
+                     @RequestParam(value = "keyword", required = false) String keyword) {
         // Page: JPA에서 제공하는 페이지네이션용 객체다.
         // 화면에서 들어오는 pageNum = 1이면 여기서 0으로 처리해야 한다. 시작 번지가 0이기 때문이다.
         log.info(" pageNum > {}", pageNum);
         pageNum = (pageNum == 0 ? 0 : pageNum - 1);
-        log.info(" pageNum > {}", pageNum);
 
-        Page<BoardDTO> boardDTOList = boardService.getList(pageNum);
-        log.info(" > BoardController list start. boardDTOList: {}.", boardDTOList);
-        log.info(" > BoardController list start. Total count: {}", boardDTOList.getTotalElements()); //전체 글 수
-        log.info(" > BoardController list start. Total page: {}", boardDTOList.getTotalPages()); // 전체 페이지 수(realEndPage)
-        log.info(" > BoardController list start. The current page: {}", boardDTOList.getNumber()); // 페이지 번호(pageNum)
-        log.info(" > BoardController list start. The amount of post per page: {}", boardDTOList.getSize()); // 한 페이지에 표시되는 글의 줄 양(postPerPage)
-        log.info(" > BoardController list start. Can move to next: {}", boardDTOList.hasNext()); // 다음 페이지로 갈 수 있는지 여부
-        log.info(" > BoardController list start. Can move to previous: {}", boardDTOList.hasPrevious()); // 이전 페이지로 갈 수 있는지 여부
+        Page<BoardDTO> boardDTOList = boardService.getList(pageNum, sortType, keyword); // 검색 기능이 추가되어 type, keyword를 추가하여 serviceImpl로 보낸다.
         model.addAttribute("list", boardDTOList);
 
         // Page 객체는 백엔드 전용(DB에서 값 받아오기용) 객체라서 화면에 띄울 수 있도록 다른 객체가 필요하다.
-        PagingVO pagingVO = new PagingVO(boardDTOList, pageNum);
+        // 검색 기능이 추가되어 sortType, keyword를 건네주었다.
+        PagingVO pagingVO = new PagingVO(boardDTOList, pageNum, sortType, keyword);
         model.addAttribute("pagingVO", pagingVO);
         model.addAttribute("list", boardDTOList);
     }

@@ -72,13 +72,19 @@ public class BoardServiceImpl implements BoardService {
 //    }
 
     @Override
-    public Page<BoardDTO> getList(int pageNum) {
+    public Page<BoardDTO> getList(int pageNum, String sortType, String keyword) {
         // 한 페이지에, 글을 10개 띄우고, bno 기준으로 내림차순으로 페이지네이션 한다.
         // pageNum이 0부터 시작한다. pageNum이 0이면 DB에서 글을 가져올 때 limit 0, 10이 된다.
         // pageNum이 1이면 limit 10, 10이 된다.
         Pageable pageable = PageRequest.of(pageNum, 10, Sort.by("bno").descending());
         // pageble에 따라 DB에서 값을 추출한 뒤 boardList에 데이터를 넣는다.
-        Page<Board> boardList = boardRepository.findAll(pageable);
+        // 검색 기능이 추가되어 더 이상 사용되지 않는다.
+//        Page<Board> boardList = boardRepository.findAll(pageable);
+
+        // 검색 기능이 추가되어 덧붙여진 부분.
+        // type, keyword, pageable 값을 주고 Page<Board>를 반환받는 메서드 생성
+        Page<Board> boardList = boardRepository.searchBoard(sortType, keyword, pageable);
+
         // Page는 자체적으로 stream의 성질이 있어서 .toList()를 붙일 필요가 없다.
         Page<BoardDTO> boardDTOList = boardList.map(b -> convertEntityToDto(b));
         return boardDTOList;

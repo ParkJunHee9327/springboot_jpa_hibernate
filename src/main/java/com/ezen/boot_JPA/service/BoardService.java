@@ -78,7 +78,7 @@ public interface BoardService {
 
 //    List<BoardDTO> getList();
 
-    Page<BoardDTO> getList(int pageNum);
+    Page<BoardDTO> getList(int pageNum, String type, String keyword);
 
     Long deleteFile(String uuid);
 

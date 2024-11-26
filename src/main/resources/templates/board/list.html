@@ -7,6 +7,28 @@
 <div layout:fragment="content">
     <div class="container-md">
         <h1>Board list page</h1>
+        <hr>
+        [[${pagingVO}]]
+
+        <!-- /* search 영역 */ -->
+        <form action="/board/list">
+            <div class="input-group mb-3">
+                <select class="form-select form-select-sm" name="sortType" aria-label="Small select example">
+                    <option th:selected="${pagingVO.sortType == null? true : false}">Select Option</option>
+                    <option th:value="t" th:selected="${pagingVO.sortType == 't' ? true : false}">Title</option>
+                    <option th:value="w" th:selected="${pagingVO.sortType == 'w' ? true : false}">Writer</option>
+                    <option th:value="c" th:selected="${pagingVO.sortType == 'c' ? true : false}">Content</option>
+                    <option th:value="tw" th:selected="${pagingVO.sortType == 'tw' ? true : false}">Title&Writer</option>
+                    <option th:value="tc" th:selected="${pagingVO.sortType == 'tc' ? true : false}">Title&Content</option>
+                    <option th:value="wc" th:selected="${pagingVO.sortType == 'wc' ? true : false}">Writer&Content</option>
+                    <option th:value="twc" th:selected="${pagingVO.sortType == 'twc' ? true : false}">Title&Writer&Content</option>
+                </select>
+                <input type="text" class="form-control" placeholder="Search Keyword" name="keyword" th:value="${pagingVO.keyword}" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="hidden" name="pageNum" th:value="1">
+                <input type="hidden" name="postPerPage" th:value="${pagingVO.totalPage}">
+                <button type="submit" class="btn btn-primary position-relative">Click to Search</button>
+            </div>
+        </form>
 
         <!--/* list 영역 */-->
         <table class="table">
